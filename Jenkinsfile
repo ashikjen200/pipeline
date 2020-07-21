@@ -35,21 +35,11 @@ pipeline {
                   // first of all, notify the team Job started
                     slackSend (channel: "${params.SLACK_CHANNEL}", color: '#4286f4', message: "Deploy Approval: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.JOB_DISPLAY_URL})")
                 script {
-                    try {
-                        timeout(time:2, unit:'MINUTES') {
-                            env.APPROVE_PROD = input message: 'Deploy to Production', ok: 'Continue',
-                                parameters: [choice(name: 'APPROVE_PROD', choices: 'YES\nNO', description: 'Deploy from STAGING to PRODUCTION?')]
-                            if (env.APPROVE_PROD == 'YES'){
-                                env.DPROD = true
-                            } else {
-                                env.DPROD = false
-                            }
-                        }
-                    } catch (error) {
-                        env.DPROD = true
-                        echo 'Timeout has been reached! Deploy to PRODUCTION automatically activated'
-                    }
-                }
+                     echo "Taking aproval"
+			timeout(time:7 unit:'DAYS'){
+				input message:'Do you want to deploy', submitter:'admin'
+                     }
+		     }
                       } // steps
                   } // stage
                  stage('Two') {
