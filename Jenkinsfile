@@ -29,6 +29,15 @@ pipeline {
                      sh "sh sample.sh"
                  }
                  }
+	         stage("Approval-deploy") {
+                      steps {
+                     // get user that has started the build
+                  // first of all, notify the team Job started
+                       slackSend (color: "good",
+                       channel: "${params.SLACK_CHANNEL}",	
+                       message: "Waiting for your Approval! Job: ${env.JOB_NAME} Build:${env.BUILD_NUMBER} has Started.\nMore info at: ${env.BUILD_URL}")
+                      } // steps
+                  } // stage
                  stage('Two') {
                  steps {
                     echo 'Hi complete'
