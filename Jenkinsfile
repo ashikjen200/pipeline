@@ -1,6 +1,6 @@
 pipeline {
          agent any
-	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/ashikjen200/pipeline.git']]]) {
+	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/ashikjen200/pipeline.git']]])
          stages {
                  stage('One') 
                  steps {
@@ -15,4 +15,4 @@ pipeline {
 
               }
 }
-}
+
