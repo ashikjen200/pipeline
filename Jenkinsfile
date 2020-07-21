@@ -29,23 +29,16 @@ pipeline {
                      sh "sh sample.sh"
                  }
                  }
-                 stage("Stage with input") {
-                   steps {
-                     def userInput = false
-                     script {
-                     def userInput = input(id: 'Proceed1', message: 'Promote build?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']])
-                     echo 'userInput: ' + userInput
-
-                  if(userInput == true) {
-                      echo 'promoted'
-                    } else {
-                        // not do action
-                          echo "Action was aborted."
-                          }
-
-                       }    
-                       }  
-                    }
+                 stage("Approval-deploy") {
+                    steps {
+                     // get user that has started the build
+                  // first of all, notify the team Job started
+                       slackSend (color: "good",
+                       channel: "${params.SLACK_CHANNEL}",	
+                       message: "Waiting for your Approval! Job: ${env.JOB_NAME} Build:${env.BUILD_NUMBER} has Started.\nMore info at: ${env.BUILD_URL}",
+					   notifyCommitters: true)
+                      } // steps
+                  } // stage
                  stage('Two') {
                  steps {
                     echo 'Hi complete'
