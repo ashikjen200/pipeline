@@ -36,9 +36,19 @@ pipeline {
                  }
 
               }
-	    post {
-            always {
-            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
-        }
+           post {
+           success {
+             slackSend (color: "good",
+            channel: "${params.SLACK_CHANNEL}",
+            message: "*SUCCESS:*\n *Job Name:* ${env.JOB_NAME}\nMore info at: ${env.BUILD_URL}\nMail sent to  DevOps Team")
+                                   
+           }
+           failure {
+             slackSend (color: "danger",
+            channel: "${params.SLACK_CHANNEL}",
+            message: "*FAILED:*\n*Job Name:* ${env.JOB_NAME}\n *Build No:* ${env.BUILD_NUMBER}\n *Stage Name:* ${FAILED_STAGE} has failed.\nMore info at: ${env.BUILD_URL}\nMail sent to DevOps Team")
+               
+           }
+    }  
     }
 }
