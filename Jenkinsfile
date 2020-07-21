@@ -2,44 +2,16 @@ pipeline {
          agent any
          stages {
                  stage('One') {
+				 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/ashikjen200/pipeline.git']]])
                  steps {
-                     echo 'Hi, this is Zulaikha from edureka'
+                     sh "sh sample.sh"
                  }
                  }
                  stage('Two') {
                  steps {
-                    input('Do you want to proceed?')
+                    echo 'Hi complete'
                  }
                  }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello"
-                 }
-                 }
-                 stage('Four') {
-                 parallel { 
-                            stage('Unit Test') {
-                           steps {
-                                echo "Running the unit test..."
-                           }
-                           }
-                            stage('Integration test') {
-                              agent {
-                                    docker {
-                                            reuseNode true
-                                            image 'ubuntu'
-                                           }
-                                    }
-                              steps {
-                                echo "Running the integration test..."
-                              }
-                           }
-                           }
-                           }
+
               }
 }
