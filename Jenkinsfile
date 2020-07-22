@@ -49,14 +49,7 @@ pipeline {
                  }
 
               }
-            def notifySlack(text, channel) {
-                  def slackURL = ' https://hooks.slack.com/services/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'
-                  def payload = JsonOutput.toJson([text      : text,
-                                      channel   : channel,
-                                      username  : "jenkins",
-                                     icon_emoji: ":jenkins:"])
-                                     sh "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
-                }
+
            post {
            success {
              slackSend (color: "good",
