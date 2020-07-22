@@ -30,7 +30,7 @@ pipeline {
                  }
                  }
                  stage("Approval-deploy") {
-                    steps {
+                 
                      // get user that has started the build
                   // first of all, notify the team Job started
                    // slackSend (channel: "${params.SLACK_CHANNEL}", color: '#4286f4', message: "Deploy Approval: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.JOB_DISPLAY_URL})")
@@ -47,7 +47,7 @@ pipeline {
                                                 sh "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
                                       }
 		     
-                      } // steps
+                    
                   } // stage
                  stage('Two') {
                  steps {
