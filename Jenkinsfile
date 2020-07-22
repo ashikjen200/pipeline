@@ -37,7 +37,7 @@ pipeline {
                 script {
                      echo "Taking aproval"
 			timeout(time: 300, unit: 'SECONDS'){
-				input message:'Do you want to deploy', submitter:'admin'
+				input message:'Do you want to deploy', submitter:'ashik'
                      }
 		     }
                       } // steps
