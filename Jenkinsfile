@@ -36,7 +36,7 @@ pipeline {
                     slackSend (channel: "${params.SLACK_CHANNEL}", color: '#4286f4', message: "Deploy Approval: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.JOB_DISPLAY_URL})")
                 script {
                      echo "Taking aproval"
-			timeout(time: 30, unit: 'SECONDS'){
+			timeout(time: 300, unit: 'SECONDS'){
 				input message:'Do you want to deploy', submitter:'admin'
                      }
 		     }
