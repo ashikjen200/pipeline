@@ -33,13 +33,20 @@ pipeline {
                     steps {
                      // get user that has started the build
                   // first of all, notify the team Job started
-                    slackSend (channel: "${params.SLACK_CHANNEL}", color: '#4286f4', message: "Deploy Approval: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.JOB_DISPLAY_URL})")
-                script {
-                     echo "Taking aproval"
-			timeout(time:7 , unit:'DAYS'){
-				input message:'Do you want to deploy', submitter:'admin'
-                     }
-		     }
+                   // slackSend (channel: "${params.SLACK_CHANNEL}", color: '#4286f4', message: "Deploy Approval: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.JOB_DISPLAY_URL})")
+               // script {
+                     //echo "Taking aproval"
+			//timeout(time:7 , unit:'DAYS'){
+				//input message:'Do you want to deploy', submitter:'admin'
+	                 def notifySlack(text, channel) {
+                                     def slackURL = ' https://hooks.slack.com/services/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'
+                                   def payload = JsonOutput.toJson([text      : text,
+                                                       channel   : channel,
+                                                       username  : "jenkins",
+                                                      icon_emoji: ":jenkins:"])
+                                                sh "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"
+                                      }
+		     
                       } // steps
                   } // stage
                  stage('Two') {
